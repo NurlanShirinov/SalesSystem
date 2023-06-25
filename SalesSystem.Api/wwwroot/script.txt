@@ -1,0 +1,409 @@
+USE [master]
+GO
+/****** Object:  Database [SalesSystemDB]    Script Date: 25.06.2023 03:04:32 ******/
+CREATE DATABASE [SalesSystemDB]
+GO
+ALTER DATABASE [SalesSystemDB] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [SalesSystemDB] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [SalesSystemDB] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [SalesSystemDB] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [SalesSystemDB] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [SalesSystemDB] SET AUTO_CLOSE ON 
+GO
+ALTER DATABASE [SalesSystemDB] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [SalesSystemDB] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [SalesSystemDB] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [SalesSystemDB] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [SalesSystemDB] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [SalesSystemDB] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [SalesSystemDB] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [SalesSystemDB] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [SalesSystemDB] SET  ENABLE_BROKER 
+GO
+ALTER DATABASE [SalesSystemDB] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [SalesSystemDB] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [SalesSystemDB] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [SalesSystemDB] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [SalesSystemDB] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [SalesSystemDB] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [SalesSystemDB] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [SalesSystemDB] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [SalesSystemDB] SET  MULTI_USER 
+GO
+ALTER DATABASE [SalesSystemDB] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [SalesSystemDB] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [SalesSystemDB] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [SalesSystemDB] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [SalesSystemDB] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [SalesSystemDB] SET QUERY_STORE = OFF
+GO
+USE [SalesSystemDB]
+GO
+/****** Object:  Table [dbo].[Discounts]    Script Date: 25.06.2023 03:04:32 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Discounts](
+	[Id] [uniqueidentifier] NOT NULL,
+	[CreatedDate] [datetime2](7) NOT NULL,
+	[DeleteStatus] [bit] NOT NULL,
+	[RowNum] [int] IDENTITY(1,1) NOT NULL,
+	[StartDate] [datetime2](7) NOT NULL,
+	[EndDate] [datetime2](7) NOT NULL,
+	[Description] [nvarchar](512) NULL,
+	[Percentage] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[InvoiceProducts]    Script Date: 25.06.2023 03:04:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[InvoiceProducts](
+	[Id] [uniqueidentifier] NOT NULL,
+	[InvoiceId] [uniqueidentifier] NOT NULL,
+	[ProductId] [uniqueidentifier] NOT NULL,
+	[Quantity] [int] NOT NULL,
+	[CreatedDate] [datetime2](7) NOT NULL,
+	[DeleteStatus] [bit] NOT NULL,
+	[RowNum] [int] IDENTITY(1,1) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Invoices]    Script Date: 25.06.2023 03:04:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Invoices](
+	[Id] [uniqueidentifier] NOT NULL,
+	[TotalAmount] [money] NOT NULL,
+	[CreatedDate] [datetime2](7) NOT NULL,
+	[DeleteStatus] [bit] NOT NULL,
+	[RowNum] [int] IDENTITY(1,1) NOT NULL,
+	[CashierId] [uniqueidentifier] NOT NULL,
+	[CustomerId] [uniqueidentifier] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Products]    Script Date: 25.06.2023 03:04:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Products](
+	[Id] [uniqueidentifier] NOT NULL,
+	[Name] [nvarchar](100) NOT NULL,
+	[Price] [money] NOT NULL,
+	[Quantity] [int] NOT NULL,
+	[DeleteStatus] [bit] NOT NULL,
+	[CreatedDate] [datetime2](7) NOT NULL,
+	[RowNum] [int] IDENTITY(1,1) NOT NULL,
+	[DiscountId] [uniqueidentifier] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Users]    Script Date: 25.06.2023 03:04:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Users](
+	[Id] [uniqueidentifier] NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+	[Surname] [nvarchar](50) NOT NULL,
+	[Email] [nvarchar](50) NOT NULL,
+	[Password] [nvarchar](max) NOT NULL,
+	[AccessToken] [nvarchar](max) NULL,
+	[RefreshToken] [nvarchar](max) NULL,
+	[RefreshTokenExpiryTime] [datetime2](7) NULL,
+	[PhoneNumber] [nvarchar](50) NOT NULL,
+	[CreatedDate] [datetime2](7) NOT NULL,
+	[DeleteStatus] [bit] NOT NULL,
+	[RowNum] [int] IDENTITY(1,1) NOT NULL,
+	[Username] [nvarchar](50) NOT NULL,
+	[UserType] [int] NOT NULL,
+ CONSTRAINT [PK__Users__3214EC07202E24AF] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Discounts] ON 
+GO
+INSERT [dbo].[Discounts] ([Id], [CreatedDate], [DeleteStatus], [RowNum], [StartDate], [EndDate], [Description], [Percentage]) VALUES (N'069e1dd9-08cf-42cf-bd12-42088c074eb3', CAST(N'2023-06-24T02:43:13.5200000' AS DateTime2), 0, 4, CAST(N'2023-06-23T22:42:37.1933333' AS DateTime2), CAST(N'2023-06-30T22:42:37.1933333' AS DateTime2), N'Shok! Bu mallara 20% endirim olundu!', 20)
+GO
+INSERT [dbo].[Discounts] ([Id], [CreatedDate], [DeleteStatus], [RowNum], [StartDate], [EndDate], [Description], [Percentage]) VALUES (N'667dace1-1c72-4f26-86de-69699898db9f', CAST(N'2023-06-24T02:17:23.3600000' AS DateTime2), 1, 3, CAST(N'2023-06-24T22:09:22.1266667' AS DateTime2), CAST(N'2023-06-29T22:09:22.1266667' AS DateTime2), N'Shok Qish endirimi bashladi', 11)
+GO
+SET IDENTITY_INSERT [dbo].[Discounts] OFF
+GO
+SET IDENTITY_INSERT [dbo].[InvoiceProducts] ON 
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'7f66d81e-ddf0-47e6-bb12-02ff7e818c43', N'6929ddfa-208f-4b2a-b4b7-8d316a373263', N'a32a286b-d6ca-44ae-a3c1-118f78d546d8', 2, CAST(N'2023-06-25T03:01:32.3266667' AS DateTime2), 0, 48)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'd24c6023-edf2-48d1-a1b5-12a9e3d049b2', N'6b8a7e12-6b16-4ce8-b5d7-b7168daa34f1', N'92b77ef9-3737-46b5-9f43-337e900b9c6a', 3, CAST(N'2023-06-25T02:11:23.2366667' AS DateTime2), 0, 29)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'9c43d3c5-89d8-4588-bee3-133a204bf33d', N'ed514242-ff19-4952-a7bb-738ba26538ac', N'a32a286b-d6ca-44ae-a3c1-118f78d546d8', 2, CAST(N'2023-06-25T02:59:37.0900000' AS DateTime2), 0, 45)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'ea4fb997-1032-48f4-b290-1daf7fd69cc9', N'e4470729-da08-49f6-818f-4206e15129ef', N'a32a286b-d6ca-44ae-a3c1-118f78d546d8', 2, CAST(N'2023-06-25T03:00:49.6666667' AS DateTime2), 0, 46)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'c223f0ff-9c23-4715-9ecb-2172d3db1f4b', N'f78b4973-5f33-4cbf-bd47-94e123260fbc', N'9e8f6f85-2d19-4167-9b61-973b9b92ba16', 1, CAST(N'2023-06-25T02:44:47.3433333' AS DateTime2), 0, 33)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'0107e9a9-5fc1-4285-bd23-27fa85f5de97', N'4e13996a-e52d-41af-b63b-64ad724a9af9', N'9e8f6f85-2d19-4167-9b61-973b9b92ba16', 5, CAST(N'2023-06-25T01:54:53.1500000' AS DateTime2), 0, 10)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'0f879419-6072-42e6-b066-2a69684f8bd3', N'22c6b5d5-bf5a-471a-80c9-5f23bcb4b519', N'9e8f6f85-2d19-4167-9b61-973b9b92ba16', 1, CAST(N'2023-06-25T02:57:06.5300000' AS DateTime2), 0, 44)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'1cd4e169-3ad6-4b77-984b-32eb0531fa47', N'95ee2d30-4678-4139-89a4-6aecca6381db', N'a32a286b-d6ca-44ae-a3c1-118f78d546d8', 2, CAST(N'2023-06-25T02:54:38.9233333' AS DateTime2), 0, 41)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'e3635cee-847e-47de-8012-330faa4b379b', N'900be61e-25ba-481d-8580-18005507f5f0', N'9e8f6f85-2d19-4167-9b61-973b9b92ba16', 5, CAST(N'2023-06-25T01:59:21.6466667' AS DateTime2), 0, 16)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'4034c29f-d5b4-4fcf-8555-3d29ce368b24', N'8d632665-6255-4a70-90aa-27adc97ae775', N'a32a286b-d6ca-44ae-a3c1-118f78d546d8', 2, CAST(N'2023-06-25T02:45:36.4800000' AS DateTime2), 0, 36)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'40576b28-b082-4cd9-b25d-48b1f02ea485', N'28d2e106-e778-49a2-ae1b-39348132d3f9', N'a32a286b-d6ca-44ae-a3c1-118f78d546d8', 2, CAST(N'2023-06-25T01:58:06.8200000' AS DateTime2), 0, 12)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'e0b80f6d-dfe0-40ee-9851-518b6e31e8a5', N'3bff9f6a-eae4-4349-9ce5-0886ac4b9160', N'a32a286b-d6ca-44ae-a3c1-118f78d546d8', 2, CAST(N'2023-06-25T02:52:35.4366667' AS DateTime2), 0, 39)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'76c009a2-f772-4a75-af57-5302451f53ce', N'65b5385d-e2eb-4667-bc4a-bc0abd71326a', N'a9d455f6-610d-4500-8f64-605e69292168', 2, CAST(N'2023-06-24T04:51:53.5533333' AS DateTime2), 0, 3)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'74c39693-e9de-4f1f-ae7b-56a622025167', N'96ab34c8-0aef-4c01-a449-4f9bbf19ff62', N'a32a286b-d6ca-44ae-a3c1-118f78d546d8', 2, CAST(N'2023-06-25T02:44:57.6433333' AS DateTime2), 0, 34)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'6a7f9393-f711-479b-a728-56c650349463', N'eb843e9c-6c6a-40a8-855e-2a3986910ef0', N'92b77ef9-3737-46b5-9f43-337e900b9c6a', 3, CAST(N'2023-06-25T02:05:10.7800000' AS DateTime2), 0, 21)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'ba7ca6f9-f27d-40df-9950-57bc67cf6e57', N'53105968-0a13-4bf2-9d7f-d4cd7d13bec6', N'9e8f6f85-2d19-4167-9b61-973b9b92ba16', 1, CAST(N'2023-06-25T02:44:07.9100000' AS DateTime2), 0, 31)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'bfbfba64-6283-489d-89af-67a59e256150', N'4e13996a-e52d-41af-b63b-64ad724a9af9', N'a32a286b-d6ca-44ae-a3c1-118f78d546d8', 2, CAST(N'2023-06-25T01:54:53.1466667' AS DateTime2), 0, 9)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'a508cacf-e069-4ab1-b5d2-68d948dc7338', N'2bdf4770-9e8e-406f-9d20-dccb659a4457', N'a32a286b-d6ca-44ae-a3c1-118f78d546d8', 2, CAST(N'2023-06-25T01:45:32.9966667' AS DateTime2), 0, 6)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'ef909f41-933d-44c9-a938-6f75c31b22e7', N'eb843e9c-6c6a-40a8-855e-2a3986910ef0', N'a32a286b-d6ca-44ae-a3c1-118f78d546d8', 5, CAST(N'2023-06-25T02:04:07.5633333' AS DateTime2), 0, 19)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'30b93bd8-a1a3-474e-aa31-73ff3c87d27b', N'95ee2d30-4678-4139-89a4-6aecca6381db', N'9e8f6f85-2d19-4167-9b61-973b9b92ba16', 1, CAST(N'2023-06-25T02:54:44.9900000' AS DateTime2), 0, 42)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'45b36ba9-0d39-430c-94ef-7612c2d947c7', N'6b8a7e12-6b16-4ce8-b5d7-b7168daa34f1', N'9e8f6f85-2d19-4167-9b61-973b9b92ba16', 5, CAST(N'2023-06-25T02:06:17.3266667' AS DateTime2), 0, 23)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'0fab990c-e056-4451-81e8-79664488c2d0', N'6b8a7e12-6b16-4ce8-b5d7-b7168daa34f1', N'92b77ef9-3737-46b5-9f43-337e900b9c6a', 3, CAST(N'2023-06-25T02:07:08.2700000' AS DateTime2), 1, 24)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'80b713fd-6e61-4b33-b7f9-7abe4807c6ab', N'a1c7cc6e-4ea5-4361-809e-7c19c076b2bc', N'9e8f6f85-2d19-4167-9b61-973b9b92ba16', 2, CAST(N'2023-06-25T01:40:51.3166667' AS DateTime2), 0, 5)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'86dd9a3f-2010-4c01-8c66-8401daf83d13', N'77955ae4-3ef9-4cba-bbe7-5cfef0fd3f44', N'a32a286b-d6ca-44ae-a3c1-118f78d546d8', 2, CAST(N'2023-06-25T03:01:48.9466667' AS DateTime2), 0, 49)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'29f07853-6629-482f-9bb4-8ac2ae73cde2', N'eb843e9c-6c6a-40a8-855e-2a3986910ef0', N'9e8f6f85-2d19-4167-9b61-973b9b92ba16', 5, CAST(N'2023-06-25T02:04:07.5666667' AS DateTime2), 0, 20)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'5a939ca2-ca39-4b5e-a2c7-9047c92f8933', N'900be61e-25ba-481d-8580-18005507f5f0', N'92b77ef9-3737-46b5-9f43-337e900b9c6a', 3, CAST(N'2023-06-25T02:01:09.8900000' AS DateTime2), 0, 17)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'91aa68e7-aad6-4d7e-8203-92ce731a5509', N'6b8a7e12-6b16-4ce8-b5d7-b7168daa34f1', N'92b77ef9-3737-46b5-9f43-337e900b9c6a', 3, CAST(N'2023-06-25T02:08:50.6433333' AS DateTime2), 0, 27)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'e43500bd-f966-42cf-aa60-9acae7a6038f', N'c01ac9e1-7e31-4078-b002-68774fe4fcae', N'a32a286b-d6ca-44ae-a3c1-118f78d546d8', 2, CAST(N'2023-06-25T02:46:05.5000000' AS DateTime2), 0, 38)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'8f669cd6-2970-4b90-a5be-9c5ca3b53bf1', N'28d2e106-e778-49a2-ae1b-39348132d3f9', N'9e8f6f85-2d19-4167-9b61-973b9b92ba16', 5, CAST(N'2023-06-25T01:58:06.8200000' AS DateTime2), 0, 13)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'788d4913-fcdc-4f1d-9718-a5a578a521f5', N'2bdf4770-9e8e-406f-9d20-dccb659a4457', N'9e8f6f85-2d19-4167-9b61-973b9b92ba16', 5, CAST(N'2023-06-25T01:45:32.9966667' AS DateTime2), 0, 7)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'af4fe23a-54a0-4e84-892d-a806bb8e6d8c', N'2bdf4770-9e8e-406f-9d20-dccb659a4457', N'92b77ef9-3737-46b5-9f43-337e900b9c6a', 3, CAST(N'2023-06-25T01:50:18.4166667' AS DateTime2), 0, 8)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'4196f656-9ddd-4b92-8274-adfc475d56b6', N'4e13996a-e52d-41af-b63b-64ad724a9af9', N'92b77ef9-3737-46b5-9f43-337e900b9c6a', 3, CAST(N'2023-06-25T01:55:46.0600000' AS DateTime2), 0, 11)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'e1dff1ef-8be8-4a1a-9983-b206fdfbd401', N'900be61e-25ba-481d-8580-18005507f5f0', N'92b77ef9-3737-46b5-9f43-337e900b9c6a', 3, CAST(N'2023-06-25T02:02:10.3833333' AS DateTime2), 0, 18)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'7da8a227-1565-4522-923b-b3827e9c3905', N'14cf3186-9874-44e7-8483-960f6d8a52bd', N'a32a286b-d6ca-44ae-a3c1-118f78d546d8', 7, CAST(N'2023-06-25T02:07:59.4333333' AS DateTime2), 0, 25)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'bb644fc9-ff2c-4313-b49c-ba9dd6a3f774', N'6b8a7e12-6b16-4ce8-b5d7-b7168daa34f1', N'92b77ef9-3737-46b5-9f43-337e900b9c6a', 3, CAST(N'2023-06-25T02:09:41.5366667' AS DateTime2), 0, 28)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'4ed2cf95-7b75-4067-9611-bfd21cebbfd1', N'22c6b5d5-bf5a-471a-80c9-5f23bcb4b519', N'a32a286b-d6ca-44ae-a3c1-118f78d546d8', 2, CAST(N'2023-06-25T02:56:53.4100000' AS DateTime2), 0, 43)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'f8dbc49e-1fb3-4e54-bef9-c4dcc525469d', N'53105968-0a13-4bf2-9d7f-d4cd7d13bec6', N'a32a286b-d6ca-44ae-a3c1-118f78d546d8', 2, CAST(N'2023-06-25T02:44:07.9066667' AS DateTime2), 0, 30)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'2f2997ac-9618-4ff0-bdc1-c569b8ad04a0', N'96ab34c8-0aef-4c01-a449-4f9bbf19ff62', N'9e8f6f85-2d19-4167-9b61-973b9b92ba16', 1, CAST(N'2023-06-25T02:44:57.6466667' AS DateTime2), 0, 35)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'446b5346-73fa-4c36-ab4e-c729ebfb755c', N'f78b4973-5f33-4cbf-bd47-94e123260fbc', N'a32a286b-d6ca-44ae-a3c1-118f78d546d8', 2, CAST(N'2023-06-25T02:44:47.3433333' AS DateTime2), 0, 32)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'1d68e2fa-ab94-4c6b-b326-c988bb36e065', N'f56b9e91-6335-4d22-b492-7fe19355b9a6', N'a32a286b-d6ca-44ae-a3c1-118f78d546d8', 2, CAST(N'2023-06-25T02:53:51.2000000' AS DateTime2), 0, 40)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'fb7a783d-f930-4e3a-861b-cd46507d78d0', N'a1c7cc6e-4ea5-4361-809e-7c19c076b2bc', N'a32a286b-d6ca-44ae-a3c1-118f78d546d8', 2, CAST(N'2023-06-25T01:40:51.3166667' AS DateTime2), 0, 4)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'9c05a9ce-68cc-422a-98b6-d735f6da710f', N'6b8a7e12-6b16-4ce8-b5d7-b7168daa34f1', N'a32a286b-d6ca-44ae-a3c1-118f78d546d8', 5, CAST(N'2023-06-25T02:06:17.3266667' AS DateTime2), 0, 22)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'344d2957-c689-4703-add0-d8d73a9beaab', N'14cf3186-9874-44e7-8483-960f6d8a52bd', N'9e8f6f85-2d19-4167-9b61-973b9b92ba16', 5, CAST(N'2023-06-25T02:07:59.4333333' AS DateTime2), 1, 26)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'725cd37e-a09b-4108-b050-e6591df8afb2', N'77955ae4-3ef9-4cba-bbe7-5cfef0fd3f44', N'9e8f6f85-2d19-4167-9b61-973b9b92ba16', 1, CAST(N'2023-06-25T03:01:48.9500000' AS DateTime2), 0, 50)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'10a0313d-0217-4fb7-978a-eac05d1828b2', N'65b5385d-e2eb-4667-bc4a-bc0abd71326a', N'a32a286b-d6ca-44ae-a3c1-118f78d546d8', 2, CAST(N'2023-06-24T04:51:50.4666667' AS DateTime2), 0, 2)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'0cd9e1e2-c009-4d5a-a16d-f4b2ed0dff3e', N'28d2e106-e778-49a2-ae1b-39348132d3f9', N'92b77ef9-3737-46b5-9f43-337e900b9c6a', 3, CAST(N'2023-06-25T01:58:49.3766667' AS DateTime2), 0, 14)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'4618ec7b-3cb6-4425-b877-f79f20be2766', N'e4470729-da08-49f6-818f-4206e15129ef', N'9e8f6f85-2d19-4167-9b61-973b9b92ba16', 1, CAST(N'2023-06-25T03:01:03.2666667' AS DateTime2), 0, 47)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'fb512bad-e174-446f-9d26-f9ac6a474a2d', N'900be61e-25ba-481d-8580-18005507f5f0', N'a32a286b-d6ca-44ae-a3c1-118f78d546d8', 5, CAST(N'2023-06-25T01:59:21.6433333' AS DateTime2), 0, 15)
+GO
+INSERT [dbo].[InvoiceProducts] ([Id], [InvoiceId], [ProductId], [Quantity], [CreatedDate], [DeleteStatus], [RowNum]) VALUES (N'b7d3e7b9-899b-44c3-8b35-fe429425c1b0', N'8d632665-6255-4a70-90aa-27adc97ae775', N'9e8f6f85-2d19-4167-9b61-973b9b92ba16', 1, CAST(N'2023-06-25T02:45:36.4800000' AS DateTime2), 0, 37)
+GO
+SET IDENTITY_INSERT [dbo].[InvoiceProducts] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Invoices] ON 
+GO
+INSERT [dbo].[Invoices] ([Id], [TotalAmount], [CreatedDate], [DeleteStatus], [RowNum], [CashierId], [CustomerId]) VALUES (N'3bff9f6a-eae4-4349-9ce5-0886ac4b9160', 0.0000, CAST(N'2023-06-25T02:52:34.3066667' AS DateTime2), 0, 21, N'12b464fb-d2f8-4323-988e-4beaab062709', N'18a52a43-f03d-44f4-b36a-8b4c3ec16965')
+GO
+INSERT [dbo].[Invoices] ([Id], [TotalAmount], [CreatedDate], [DeleteStatus], [RowNum], [CashierId], [CustomerId]) VALUES (N'900be61e-25ba-481d-8580-18005507f5f0', 0.0000, CAST(N'2023-06-25T01:59:21.6433333' AS DateTime2), 0, 10, N'12b464fb-d2f8-4323-988e-4beaab062709', N'18a52a43-f03d-44f4-b36a-8b4c3ec16965')
+GO
+INSERT [dbo].[Invoices] ([Id], [TotalAmount], [CreatedDate], [DeleteStatus], [RowNum], [CashierId], [CustomerId]) VALUES (N'13ed881b-eb28-4c10-92ad-1f876438a30f', 0.0000, CAST(N'2023-06-25T02:48:39.6933333' AS DateTime2), 0, 19, N'12b464fb-d2f8-4323-988e-4beaab062709', N'18a52a43-f03d-44f4-b36a-8b4c3ec16965')
+GO
+INSERT [dbo].[Invoices] ([Id], [TotalAmount], [CreatedDate], [DeleteStatus], [RowNum], [CashierId], [CustomerId]) VALUES (N'8d632665-6255-4a70-90aa-27adc97ae775', 0.0000, CAST(N'2023-06-25T02:45:36.4766667' AS DateTime2), 0, 17, N'12b464fb-d2f8-4323-988e-4beaab062709', N'18a52a43-f03d-44f4-b36a-8b4c3ec16965')
+GO
+INSERT [dbo].[Invoices] ([Id], [TotalAmount], [CreatedDate], [DeleteStatus], [RowNum], [CashierId], [CustomerId]) VALUES (N'eb843e9c-6c6a-40a8-855e-2a3986910ef0', 0.0000, CAST(N'2023-06-25T02:04:07.5333333' AS DateTime2), 0, 11, N'12b464fb-d2f8-4323-988e-4beaab062709', N'18a52a43-f03d-44f4-b36a-8b4c3ec16965')
+GO
+INSERT [dbo].[Invoices] ([Id], [TotalAmount], [CreatedDate], [DeleteStatus], [RowNum], [CashierId], [CustomerId]) VALUES (N'28d2e106-e778-49a2-ae1b-39348132d3f9', 0.0000, CAST(N'2023-06-25T01:58:06.8166667' AS DateTime2), 0, 9, N'12b464fb-d2f8-4323-988e-4beaab062709', N'18a52a43-f03d-44f4-b36a-8b4c3ec16965')
+GO
+INSERT [dbo].[Invoices] ([Id], [TotalAmount], [CreatedDate], [DeleteStatus], [RowNum], [CashierId], [CustomerId]) VALUES (N'e4470729-da08-49f6-818f-4206e15129ef', 0.0000, CAST(N'2023-06-25T03:00:39.2966667' AS DateTime2), 0, 26, N'12b464fb-d2f8-4323-988e-4beaab062709', N'18a52a43-f03d-44f4-b36a-8b4c3ec16965')
+GO
+INSERT [dbo].[Invoices] ([Id], [TotalAmount], [CreatedDate], [DeleteStatus], [RowNum], [CashierId], [CustomerId]) VALUES (N'96ab34c8-0aef-4c01-a449-4f9bbf19ff62', 0.0000, CAST(N'2023-06-25T02:44:57.6400000' AS DateTime2), 0, 16, N'12b464fb-d2f8-4323-988e-4beaab062709', N'18a52a43-f03d-44f4-b36a-8b4c3ec16965')
+GO
+INSERT [dbo].[Invoices] ([Id], [TotalAmount], [CreatedDate], [DeleteStatus], [RowNum], [CashierId], [CustomerId]) VALUES (N'77955ae4-3ef9-4cba-bbe7-5cfef0fd3f44', 0.0000, CAST(N'2023-06-25T03:01:48.9400000' AS DateTime2), 0, 28, N'12b464fb-d2f8-4323-988e-4beaab062709', N'18a52a43-f03d-44f4-b36a-8b4c3ec16965')
+GO
+INSERT [dbo].[Invoices] ([Id], [TotalAmount], [CreatedDate], [DeleteStatus], [RowNum], [CashierId], [CustomerId]) VALUES (N'22c6b5d5-bf5a-471a-80c9-5f23bcb4b519', 0.0000, CAST(N'2023-06-25T02:56:39.8033333' AS DateTime2), 0, 24, N'12b464fb-d2f8-4323-988e-4beaab062709', N'18a52a43-f03d-44f4-b36a-8b4c3ec16965')
+GO
+INSERT [dbo].[Invoices] ([Id], [TotalAmount], [CreatedDate], [DeleteStatus], [RowNum], [CashierId], [CustomerId]) VALUES (N'4e13996a-e52d-41af-b63b-64ad724a9af9', 0.0000, CAST(N'2023-06-25T01:54:53.1100000' AS DateTime2), 0, 8, N'12b464fb-d2f8-4323-988e-4beaab062709', N'18a52a43-f03d-44f4-b36a-8b4c3ec16965')
+GO
+INSERT [dbo].[Invoices] ([Id], [TotalAmount], [CreatedDate], [DeleteStatus], [RowNum], [CashierId], [CustomerId]) VALUES (N'c01ac9e1-7e31-4078-b002-68774fe4fcae', 0.0000, CAST(N'2023-06-25T02:46:01.5900000' AS DateTime2), 0, 18, N'12b464fb-d2f8-4323-988e-4beaab062709', N'18a52a43-f03d-44f4-b36a-8b4c3ec16965')
+GO
+INSERT [dbo].[Invoices] ([Id], [TotalAmount], [CreatedDate], [DeleteStatus], [RowNum], [CashierId], [CustomerId]) VALUES (N'95ee2d30-4678-4139-89a4-6aecca6381db', 0.0000, CAST(N'2023-06-25T02:54:33.7300000' AS DateTime2), 0, 23, N'12b464fb-d2f8-4323-988e-4beaab062709', N'18a52a43-f03d-44f4-b36a-8b4c3ec16965')
+GO
+INSERT [dbo].[Invoices] ([Id], [TotalAmount], [CreatedDate], [DeleteStatus], [RowNum], [CashierId], [CustomerId]) VALUES (N'fab7126c-3f61-401b-a529-723ee64b4442', 0.0000, CAST(N'2023-06-25T02:51:50.6033333' AS DateTime2), 0, 20, N'12b464fb-d2f8-4323-988e-4beaab062709', N'18a52a43-f03d-44f4-b36a-8b4c3ec16965')
+GO
+INSERT [dbo].[Invoices] ([Id], [TotalAmount], [CreatedDate], [DeleteStatus], [RowNum], [CashierId], [CustomerId]) VALUES (N'ed514242-ff19-4952-a7bb-738ba26538ac', 0.0000, CAST(N'2023-06-25T02:59:33.5433333' AS DateTime2), 0, 25, N'12b464fb-d2f8-4323-988e-4beaab062709', N'18a52a43-f03d-44f4-b36a-8b4c3ec16965')
+GO
+INSERT [dbo].[Invoices] ([Id], [TotalAmount], [CreatedDate], [DeleteStatus], [RowNum], [CashierId], [CustomerId]) VALUES (N'a1c7cc6e-4ea5-4361-809e-7c19c076b2bc', 0.0000, CAST(N'2023-06-25T01:40:51.3033333' AS DateTime2), 0, 6, N'12b464fb-d2f8-4323-988e-4beaab062709', N'3fa85f64-5717-4562-b3fc-2c963f66afa6')
+GO
+INSERT [dbo].[Invoices] ([Id], [TotalAmount], [CreatedDate], [DeleteStatus], [RowNum], [CashierId], [CustomerId]) VALUES (N'f56b9e91-6335-4d22-b492-7fe19355b9a6', 0.0000, CAST(N'2023-06-25T02:53:27.2000000' AS DateTime2), 0, 22, N'12b464fb-d2f8-4323-988e-4beaab062709', N'18a52a43-f03d-44f4-b36a-8b4c3ec16965')
+GO
+INSERT [dbo].[Invoices] ([Id], [TotalAmount], [CreatedDate], [DeleteStatus], [RowNum], [CashierId], [CustomerId]) VALUES (N'6929ddfa-208f-4b2a-b4b7-8d316a373263', 0.0000, CAST(N'2023-06-25T03:01:28.4500000' AS DateTime2), 0, 27, N'12b464fb-d2f8-4323-988e-4beaab062709', N'18a52a43-f03d-44f4-b36a-8b4c3ec16965')
+GO
+INSERT [dbo].[Invoices] ([Id], [TotalAmount], [CreatedDate], [DeleteStatus], [RowNum], [CashierId], [CustomerId]) VALUES (N'f78b4973-5f33-4cbf-bd47-94e123260fbc', 0.0000, CAST(N'2023-06-25T02:44:47.3400000' AS DateTime2), 0, 15, N'12b464fb-d2f8-4323-988e-4beaab062709', N'18a52a43-f03d-44f4-b36a-8b4c3ec16965')
+GO
+INSERT [dbo].[Invoices] ([Id], [TotalAmount], [CreatedDate], [DeleteStatus], [RowNum], [CashierId], [CustomerId]) VALUES (N'14cf3186-9874-44e7-8483-960f6d8a52bd', 0.0000, CAST(N'2023-06-25T02:07:59.4033333' AS DateTime2), 0, 13, N'12b464fb-d2f8-4323-988e-4beaab062709', N'18a52a43-f03d-44f4-b36a-8b4c3ec16965')
+GO
+INSERT [dbo].[Invoices] ([Id], [TotalAmount], [CreatedDate], [DeleteStatus], [RowNum], [CashierId], [CustomerId]) VALUES (N'cbadb4c1-c576-43e0-b07e-9f9ffb07ae28', 0.0000, CAST(N'2023-06-24T04:29:28.6033333' AS DateTime2), 0, 2, N'12b464fb-d2f8-4323-988e-4beaab062709', N'18a52a43-f03d-44f4-b36a-8b4c3ec16965')
+GO
+INSERT [dbo].[Invoices] ([Id], [TotalAmount], [CreatedDate], [DeleteStatus], [RowNum], [CashierId], [CustomerId]) VALUES (N'183c9147-093f-4eb5-a4c4-a7d067c24e98', 0.0000, CAST(N'2023-06-24T04:49:01.7300000' AS DateTime2), 0, 3, N'12b464fb-d2f8-4323-988e-4beaab062709', N'18a52a43-f03d-44f4-b36a-8b4c3ec16965')
+GO
+INSERT [dbo].[Invoices] ([Id], [TotalAmount], [CreatedDate], [DeleteStatus], [RowNum], [CashierId], [CustomerId]) VALUES (N'6b8a7e12-6b16-4ce8-b5d7-b7168daa34f1', 0.0000, CAST(N'2023-06-25T02:06:17.3000000' AS DateTime2), 0, 12, N'12b464fb-d2f8-4323-988e-4beaab062709', N'18a52a43-f03d-44f4-b36a-8b4c3ec16965')
+GO
+INSERT [dbo].[Invoices] ([Id], [TotalAmount], [CreatedDate], [DeleteStatus], [RowNum], [CashierId], [CustomerId]) VALUES (N'65b5385d-e2eb-4667-bc4a-bc0abd71326a', 0.0000, CAST(N'2023-06-24T04:51:46.5000000' AS DateTime2), 0, 5, N'12b464fb-d2f8-4323-988e-4beaab062709', N'18a52a43-f03d-44f4-b36a-8b4c3ec16965')
+GO
+INSERT [dbo].[Invoices] ([Id], [TotalAmount], [CreatedDate], [DeleteStatus], [RowNum], [CashierId], [CustomerId]) VALUES (N'53105968-0a13-4bf2-9d7f-d4cd7d13bec6', 0.0000, CAST(N'2023-06-25T02:44:07.8600000' AS DateTime2), 0, 14, N'12b464fb-d2f8-4323-988e-4beaab062709', N'18a52a43-f03d-44f4-b36a-8b4c3ec16965')
+GO
+INSERT [dbo].[Invoices] ([Id], [TotalAmount], [CreatedDate], [DeleteStatus], [RowNum], [CashierId], [CustomerId]) VALUES (N'2bdf4770-9e8e-406f-9d20-dccb659a4457', 0.0000, CAST(N'2023-06-25T01:45:32.9933333' AS DateTime2), 0, 7, N'12b464fb-d2f8-4323-988e-4beaab062709', N'18a52a43-f03d-44f4-b36a-8b4c3ec16965')
+GO
+INSERT [dbo].[Invoices] ([Id], [TotalAmount], [CreatedDate], [DeleteStatus], [RowNum], [CashierId], [CustomerId]) VALUES (N'acc28de6-2df5-4bfc-9743-e7a0f2015d0f', 0.0000, CAST(N'2023-06-24T04:50:11.1200000' AS DateTime2), 0, 4, N'12b464fb-d2f8-4323-988e-4beaab062709', N'18a52a43-f03d-44f4-b36a-8b4c3ec16965')
+GO
+SET IDENTITY_INSERT [dbo].[Invoices] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Products] ON 
+GO
+INSERT [dbo].[Products] ([Id], [Name], [Price], [Quantity], [DeleteStatus], [CreatedDate], [RowNum], [DiscountId]) VALUES (N'a32a286b-d6ca-44ae-a3c1-118f78d546d8', N'Hell', 0.5000, 80, 0, CAST(N'2023-06-24T02:21:14.3866667' AS DateTime2), 8, N'069e1dd9-08cf-42cf-bd12-42088c074eb3')
+GO
+INSERT [dbo].[Products] ([Id], [Name], [Price], [Quantity], [DeleteStatus], [CreatedDate], [RowNum], [DiscountId]) VALUES (N'92b77ef9-3737-46b5-9f43-337e900b9c6a', N'RedBull', 2.0000, 3, 1, CAST(N'2023-06-24T00:48:32.3866667' AS DateTime2), 3, NULL)
+GO
+INSERT [dbo].[Products] ([Id], [Name], [Price], [Quantity], [DeleteStatus], [CreatedDate], [RowNum], [DiscountId]) VALUES (N'a9d455f6-610d-4500-8f64-605e69292168', N'Bizon', 2.0000, 2, 0, CAST(N'2023-06-24T00:52:06.7366667' AS DateTime2), 4, N'069e1dd9-08cf-42cf-bd12-42088c074eb3')
+GO
+INSERT [dbo].[Products] ([Id], [Name], [Price], [Quantity], [DeleteStatus], [CreatedDate], [RowNum], [DiscountId]) VALUES (N'bd365366-232e-4056-91ad-6143091637b0', N'7up', 2.2000, 20, 0, CAST(N'2023-06-24T00:54:04.9766667' AS DateTime2), 7, N'069e1dd9-08cf-42cf-bd12-42088c074eb3')
+GO
+INSERT [dbo].[Products] ([Id], [Name], [Price], [Quantity], [DeleteStatus], [CreatedDate], [RowNum], [DiscountId]) VALUES (N'9e8f6f85-2d19-4167-9b61-973b9b92ba16', N'Sprite', 2.0000, 0, 0, CAST(N'2023-06-24T00:52:58.8866667' AS DateTime2), 5, NULL)
+GO
+INSERT [dbo].[Products] ([Id], [Name], [Price], [Quantity], [DeleteStatus], [CreatedDate], [RowNum], [DiscountId]) VALUES (N'7279d61f-d4e2-48c5-bb49-d29abf12d301', N'Cola', 2.2000, 50, 0, CAST(N'2023-06-24T00:38:21.4000000' AS DateTime2), 2, NULL)
+GO
+INSERT [dbo].[Products] ([Id], [Name], [Price], [Quantity], [DeleteStatus], [CreatedDate], [RowNum], [DiscountId]) VALUES (N'6d26d1a6-fe5a-44c4-b219-eb10385c2eae', N'Fanta', 2.2000, 20, 0, CAST(N'2023-06-24T00:53:56.0066667' AS DateTime2), 6, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[Products] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Users] ON 
+GO
+INSERT [dbo].[Users] ([Id], [Name], [Surname], [Email], [Password], [AccessToken], [RefreshToken], [RefreshTokenExpiryTime], [PhoneNumber], [CreatedDate], [DeleteStatus], [RowNum], [Username], [UserType]) VALUES (N'ab7cc7b4-90df-4ab0-a14f-0023ec99e0af', N'Rufat', N'Ismayilov', N'rufat1@gmail.com', N'AQAAAAIAAYagAAAAEP1vODNUHVI8SqjbylmJbg2AE8qFeJAQayvOpgRNO8Z90/TF2FdutrOpAkfgBvQUpQ==', NULL, N'string', CAST(N'2023-06-22T22:41:31.1166667' AS DateTime2), N'994508821299', CAST(N'2023-06-22T22:41:31.1166667' AS DateTime2), 0, 1, N'ismayilov449', 0)
+GO
+INSERT [dbo].[Users] ([Id], [Name], [Surname], [Email], [Password], [AccessToken], [RefreshToken], [RefreshTokenExpiryTime], [PhoneNumber], [CreatedDate], [DeleteStatus], [RowNum], [Username], [UserType]) VALUES (N'2ad36a10-ca2e-4aab-82d6-00435f261bd1', N'Nurlan2', N'Shirinov2', N'nurlan2@gmail.com', N'AQAAAAIAAYagAAAAECvWSY5V1ZhC6aOuE1uYcaCvqSZfX6N2O9hpawCCc/n72Ifqc+c6yEk8T1MpPdfaoA==', NULL, N'I8z2UVsMh77imVjxicKc9OXUxeJEn8aY4G5g0tqtFeM5WTTipaZWc/K8M6WCIACDDTtkogAfgmTlVSKX7eXXfA==', CAST(N'2023-06-23T03:44:31.2333333' AS DateTime2), N'994508821299', CAST(N'2023-06-22T22:41:31.1166667' AS DateTime2), 0, 4, N'nurlan1', 0)
+GO
+INSERT [dbo].[Users] ([Id], [Name], [Surname], [Email], [Password], [AccessToken], [RefreshToken], [RefreshTokenExpiryTime], [PhoneNumber], [CreatedDate], [DeleteStatus], [RowNum], [Username], [UserType]) VALUES (N'12b464fb-d2f8-4323-988e-4beaab062709', N'Cashier', N'Cashier', N'Cashier@gmail.com', N'AQAAAAIAAYagAAAAEHyvZS0Vd4cvL3Ck2IkF+7ovKZ1rcL3K4IOvv8T8NtjhPFVteNBrAK+gtghgpzhsUg==', NULL, N'ZlC/AmsOr45QibcwilhfGXpnrOrF4CEmij465r+kF3xjBs9Z6UkOnNQFsxmh1SxV+5C+SiBrllGSRYlnjadt/w==', CAST(N'2023-06-25T02:45:19.2900000' AS DateTime2), N'508821299', CAST(N'2023-06-23T23:17:16.6433333' AS DateTime2), 0, 5, N'cashier', 1)
+GO
+INSERT [dbo].[Users] ([Id], [Name], [Surname], [Email], [Password], [AccessToken], [RefreshToken], [RefreshTokenExpiryTime], [PhoneNumber], [CreatedDate], [DeleteStatus], [RowNum], [Username], [UserType]) VALUES (N'18a52a43-f03d-44f4-b36a-8b4c3ec16965', N'Customer', N'Customerov', N'Customer@gmail.com', N'AQAAAAIAAYagAAAAEFigA3a/Ds4c0TwXvanTfVNpV8lxrtRoVWTgS/qqXN6ShpDhRsz15G74giaH5jE7Dw==', NULL, N'', CAST(N'2023-06-24T04:23:09.2133333' AS DateTime2), N'994508821299', CAST(N'2023-06-24T04:23:09.0800000' AS DateTime2), 0, 6, N'customer', 0)
+GO
+INSERT [dbo].[Users] ([Id], [Name], [Surname], [Email], [Password], [AccessToken], [RefreshToken], [RefreshTokenExpiryTime], [PhoneNumber], [CreatedDate], [DeleteStatus], [RowNum], [Username], [UserType]) VALUES (N'f7e39706-d4bc-4c11-8b8f-a51e140a55ee', N'Nurlan', N'Shirinov', N'nurlan@gmail.com', N'AQAAAAIAAYagAAAAEJor9p0++t+pA9ITo/WG7HsJVSorZlCVPUIN/HV6O0kTB5dozXy54xa+v3Fd57oAdA==', NULL, N'D4CBOU7JqnAezOUBm8yx+v/IYL7LH5Mcm8hYnWwt5pzIDypVmZzJjQouPJZH9TqEKW52Xux/7SaaHJJ4P3NK4A==', CAST(N'2023-06-23T03:21:28.1100000' AS DateTime2), N'994508821299', CAST(N'2023-06-22T22:41:31.1166667' AS DateTime2), 0, 2, N'nurlan123', 0)
+GO
+INSERT [dbo].[Users] ([Id], [Name], [Surname], [Email], [Password], [AccessToken], [RefreshToken], [RefreshTokenExpiryTime], [PhoneNumber], [CreatedDate], [DeleteStatus], [RowNum], [Username], [UserType]) VALUES (N'16f7ec0d-44b9-418e-bd26-c6bd6ac20961', N'Nurlan1', N'Shirinov1', N'nurlan1@gmail.com', N'AQAAAAIAAYagAAAAEGymudcDkLRH/BFfhZLeN0wXeQWV81uA8cmspWvzZJc5OonuKRAUaxAYO7zeqUF7cw==', NULL, N'Sqab75nujLIapBNElylADiT5JUfU8T7XY+sPX0m255iX2t0xRtBquUbubK6scRIVd5D4vXO/pCxddrHCiZdDzA==', CAST(N'2023-06-25T00:15:53.4700000' AS DateTime2), N'994508821299', CAST(N'2023-06-22T22:41:31.1166667' AS DateTime2), 0, 3, N'nurlan12', 0)
+GO
+SET IDENTITY_INSERT [dbo].[Users] OFF
+GO
+ALTER TABLE [dbo].[Discounts] ADD  DEFAULT (newid()) FOR [Id]
+GO
+ALTER TABLE [dbo].[Discounts] ADD  CONSTRAINT [DF_Discounts_CreatedDate]  DEFAULT (getdate()) FOR [CreatedDate]
+GO
+ALTER TABLE [dbo].[Discounts] ADD  DEFAULT ((0)) FOR [DeleteStatus]
+GO
+ALTER TABLE [dbo].[Discounts] ADD  DEFAULT ((0)) FOR [Percentage]
+GO
+ALTER TABLE [dbo].[InvoiceProducts] ADD  DEFAULT (newid()) FOR [Id]
+GO
+ALTER TABLE [dbo].[InvoiceProducts] ADD  DEFAULT ((1)) FOR [Quantity]
+GO
+ALTER TABLE [dbo].[InvoiceProducts] ADD  CONSTRAINT [DF_InvoiceProducts_CreatedDate]  DEFAULT (getdate()) FOR [CreatedDate]
+GO
+ALTER TABLE [dbo].[InvoiceProducts] ADD  DEFAULT ((0)) FOR [DeleteStatus]
+GO
+ALTER TABLE [dbo].[Invoices] ADD  DEFAULT (newid()) FOR [Id]
+GO
+ALTER TABLE [dbo].[Invoices] ADD  CONSTRAINT [DF_Invoices_CreatedDate]  DEFAULT (getdate()) FOR [CreatedDate]
+GO
+ALTER TABLE [dbo].[Invoices] ADD  DEFAULT ((0)) FOR [DeleteStatus]
+GO
+ALTER TABLE [dbo].[Products] ADD  DEFAULT (newid()) FOR [Id]
+GO
+ALTER TABLE [dbo].[Products] ADD  DEFAULT ((0)) FOR [DeleteStatus]
+GO
+ALTER TABLE [dbo].[Products] ADD  CONSTRAINT [DF_Products_CreatedDate]  DEFAULT (getdate()) FOR [CreatedDate]
+GO
+ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [DF__Users__Id__4E88ABD4]  DEFAULT (newid()) FOR [Id]
+GO
+ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [DF__Users__DeleteSta__4F7CD00D]  DEFAULT ((0)) FOR [DeleteStatus]
+GO
+USE [master]
+GO
+ALTER DATABASE [SalesSystemDB] SET  READ_WRITE 
+GO
