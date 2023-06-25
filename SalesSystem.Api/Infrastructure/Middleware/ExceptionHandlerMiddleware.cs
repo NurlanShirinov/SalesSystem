@@ -30,30 +30,8 @@ namespace SalesSystem.Api.Infrastructure.Middleware
                         // custom application error
                         response.StatusCode = (int)HttpStatusCode.NotFound;
                         break;
-                    //case UnsupportedFileType:
-                    //    // unsupported media type error 
-                    //    response.StatusCode = (int)HttpStatusCode.UnsupportedMediaType;
-                    //    break;
-                    //case CannotAssignSameRoleGroup:
-                    //    response.StatusCode = (int)HttpStatusCode.Conflict;
-                    //    break;
-                    //case SameRoleName:
-                    //    response.StatusCode = (int)HttpStatusCode.Conflict;
-                    //    break;
-                    //case RoleExists:
-                    //    response.StatusCode = (int)HttpStatusCode.Conflict;
-                    //    break;
-                    //case DateRange:
-                    //    response.StatusCode = (int)HttpStatusCode.NotAcceptable;
-                    //    break;
-                    //case DatesCannotBeNull:
-                    //    response.StatusCode = (int)HttpStatusCode.NotAcceptable;
-                    //    break;
-                    //case Forbidden:
-                    //    response.StatusCode = (int)HttpStatusCode.Forbidden;
-                    //    break;
+                  
                     default:
-                        // unhandled error
                         response.StatusCode = (int)HttpStatusCode.InternalServerError;
                         break;
                 }

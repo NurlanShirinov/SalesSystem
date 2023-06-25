@@ -125,7 +125,6 @@ ORDER BY RowNum DESC";
             }
             catch (Exception)
             {
-
                 throw new NotFound(email, typeof(User));
             }
         }

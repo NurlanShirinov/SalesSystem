@@ -34,21 +34,21 @@ namespace SalesSystem.Api.Controllers
             return Ok(result);
         }
 
-        [HttpPost("Post")]
+        [HttpPost]
         public async Task<IActionResult> Post([FromBody] Discount discount)
         {
             var result = await _discountService.Post(discount);
             return Ok(result);
         }
 
-        [HttpPut("Put")]
+        [HttpPut]
         public async Task<IActionResult> Put([FromBody] Discount discount)
         {
             var result = await _discountService.Put(discount);
             return Ok(result);
         }
 
-        [HttpDelete("Delete")]
+        [HttpDelete]
         public async Task<IActionResult> Delete(Guid id)
         {
             var result = await _discountService.Delete(id);

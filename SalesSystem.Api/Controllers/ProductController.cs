@@ -19,7 +19,7 @@ namespace SalesSystem.Api.Controllers
             _productService = productService;
         }
 
-        [HttpGet("GetAllAsync")]
+        [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var result = await _productService.GetAllAsync();
@@ -40,21 +40,21 @@ namespace SalesSystem.Api.Controllers
             return Ok(result);
         }
 
-        [HttpPost("Post")]
+        [HttpPost]
         public async Task<IActionResult> Post([FromBody] ProductRequestModel model)
         {
             var result = await _productService.Post(model);
             return Ok(result);
         }
 
-        [HttpPut("Put")]
+        [HttpPut]
         public async Task<IActionResult> Put([FromBody] Product product)
         {
             await _productService.Put(product);
             return Ok();
         }
 
-        [HttpDelete("Delete")]
+        [HttpDelete]
         public async Task<IActionResult> Delete(Guid id)
         {
             var result = await _productService.Delete(id);
