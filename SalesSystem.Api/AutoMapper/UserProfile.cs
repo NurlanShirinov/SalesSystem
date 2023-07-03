@@ -8,8 +8,8 @@ namespace SalesSystem.Api.AutoMapper
     {
         public UserProfile()
         {
-            CreateMap<RegisterViewModel, User>().ReverseMap();
-            CreateMap<UpdateApplicationUserViewModel, User>().ReverseMap();
+            CreateMap<RegisterRequestModel, User>().ReverseMap();
+            CreateMap<UpdateApplicationUserRequestModel, User>().ReverseMap();
         }
     }
 }

@@ -7,14 +7,14 @@ namespace SalesSystem.Api.Infrastructure
     {
         public static IApplicationBuilder AddPipeline(this IApplicationBuilder builder, WebApplication app, IConfiguration configuration)
         {
-          
-                app.UseSwagger();
-                app.UseSwaggerUI();
-          
+
+            app.UseSwagger();
+            app.UseSwaggerUI();
+
             app.UseStaticFiles();
             app.UseCors("EnableCORS");
             app.UseHttpsRedirection();
-           
+
 
             app.UseMiddleware<ExceptionHandlerMiddleware>();
 

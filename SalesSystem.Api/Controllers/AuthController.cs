@@ -30,7 +30,7 @@ namespace SalesSystem.Api.Controllers
 
         [AllowAnonymous]
         [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromBody] LoginViewModel model)
+        public async Task<IActionResult> Login([FromBody] LoginRequestModel model)
         {
             var user = await _userService.FindByEmailAsync(model.Email);
             if (user != null && await _userService.CheckPasswordAsync(user, model.Password))
@@ -65,7 +65,7 @@ namespace SalesSystem.Api.Controllers
 
         [AllowAnonymous]
         [HttpPost("RefreshToken")]
-        public async Task<IActionResult> RefreshToken([FromBody] TokenViewModel tokenModel)
+        public async Task<IActionResult> RefreshToken([FromBody] TokenRequestModel tokenModel)
         {
             if (tokenModel is null)
             {
