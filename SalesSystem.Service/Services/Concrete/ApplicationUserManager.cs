@@ -5,11 +5,6 @@ using Microsoft.Extensions.Options;
 using SalesSystem.Core.Models;
 using SalesSystem.Repository.Infrastructure;
 using SalesSystem.Service.Services.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SalesSystem.Service.Services.Concrete
 {
@@ -30,18 +25,17 @@ namespace SalesSystem.Service.Services.Concrete
             _unitOfWork = unitOfWork;
         }
 
-        private readonly string _updateUserSql = $@"UPDATE AspNetUsers SET 
+        private readonly string _updateUserSql = $@"UPDATE Users SET 
                       
                        WHERE Id=@{nameof(User.Id)}
 
-                       SELECT * FROM AspNetUsers WHERE Id=@{nameof(User.Id)} AND DeleteStatus=0";
+                       SELECT * FROM Users WHERE Id=@{nameof(User.Id)} AND DeleteStatus=0";
 
-        private readonly string _getByIdSql = $@"SELECT ANU.*, RG.Name RoleGroupName, C.Name CompanyName, C.Id CompanyId
-                                                 FROM AspNetUsers ANU
-                                                 LEFT JOIN RoleGroups RG ON RG.Id = ANU.RoleGroupId
-                                                 LEFT JOIN Companies C on ANU.CompanyId = C.Id WHERE ANU.Id=@id";
+        private readonly string _getByIdSql = $@"SELECT U.*
+                                                 FROM Users U
+                                                 WHERE U.Id=@id";
 
-        private readonly string _setPasswordHash = $@"UPDATE AspNetUsers SET PasswordHash=@newPasswordHash WHERE Id=@Id";
+        private readonly string _setPasswordHash = $@"UPDATE Users SET PasswordHash=@newPasswordHash WHERE Id=@Id";
 
         public async Task<User> GetById(string id)
         {

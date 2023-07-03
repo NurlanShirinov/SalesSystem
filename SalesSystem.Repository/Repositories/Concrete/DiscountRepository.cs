@@ -2,7 +2,6 @@
 using SalesSystem.Repository.CQRS.Commands.Abstract;
 using SalesSystem.Repository.CQRS.Queries.Abstract;
 using SalesSystem.Repository.Repositories.Abstract;
-using System.ComponentModel.DataAnnotations;
 
 namespace SalesSystem.Repository.Repositories.Concrete
 {

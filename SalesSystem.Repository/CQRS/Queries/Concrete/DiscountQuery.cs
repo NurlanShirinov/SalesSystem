@@ -41,7 +41,6 @@ namespace SalesSystem.Repository.CQRS.Queries.Concrete
             }
             catch (Exception)
             {
-
                 throw;
             }
         }

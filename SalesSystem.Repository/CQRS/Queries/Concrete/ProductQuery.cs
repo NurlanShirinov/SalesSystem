@@ -1,7 +1,5 @@
 ﻿using Dapper;
 using SalesSystem.Core.Models;
-using SalesSystem.Core.RequestModels;
-using SalesSystem.Repository.CQRS.Commands.Abstract;
 using SalesSystem.Repository.CQRS.Queries.Abstract;
 using SalesSystem.Repository.Infrastructure;
 
@@ -43,7 +41,6 @@ namespace SalesSystem.Repository.CQRS.Queries.Concrete
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }
@@ -57,7 +54,6 @@ namespace SalesSystem.Repository.CQRS.Queries.Concrete
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -71,7 +67,6 @@ namespace SalesSystem.Repository.CQRS.Queries.Concrete
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -85,7 +80,6 @@ namespace SalesSystem.Repository.CQRS.Queries.Concrete
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -99,7 +93,6 @@ namespace SalesSystem.Repository.CQRS.Queries.Concrete
             }
             catch (Exception)
             {
-
                 throw;
             }
         }

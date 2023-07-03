@@ -41,7 +41,6 @@ namespace SalesSystem.Api.Infrastructure.Services
                         },
                         OnTokenValidated = context =>
                         {
-
                             return Task.CompletedTask;
                         }
                     };

@@ -1,11 +1,6 @@
 ﻿using SalesSystem.Core.Models;
 using SalesSystem.Repository.Repositories.Abstract;
 using SalesSystem.Service.Services.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SalesSystem.Service.Services.Concrete
 {
